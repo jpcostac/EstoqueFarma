@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EstoqueFarma</string>
+    <string-array name="categorias_array">
+        <item>Medicamento e Saúde</item>
+        <item>Higiene e Beleza</item>
+        <item>Fitness e Nutricao</item>
+    </string-array>
+</resources>
