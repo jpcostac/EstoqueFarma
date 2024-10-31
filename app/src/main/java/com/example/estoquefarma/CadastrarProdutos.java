@@ -22,7 +22,7 @@ public class CadastrarProdutos extends AppCompatActivity {
     private EditText nomeProduto, valorProduto, quantidade;
     private Spinner spinnerCategoria;
     private Button cadastrarProduto;
-    private ArrayList<Produto> listaDeProdutos;
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,8 @@ public class CadastrarProdutos extends AppCompatActivity {
         quantidade = findViewById(R.id.quantidade);
         spinnerCategoria = findViewById(R.id.spinnerCategoria);
         cadastrarProduto = findViewById(R.id.cadastrarProduto);
-        listaDeProdutos = new ArrayList<>();
+
+        database = new Database(this);
 
         cadastrarProduto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,11 +53,15 @@ public class CadastrarProdutos extends AppCompatActivity {
                 int qtd = Integer.parseInt(qtdStr);
                 String categoria = spinnerCategoria.getSelectedItem().toString();
 
-                Produto produto = new Produto(nome, valor, qtd, categoria);
-                listaDeProdutos.add(produto);
+                boolean sucesso = database.inserirProduto(nome, valor, qtd, categoria);
 
+                if(sucesso){
+                    Toast.makeText(CadastrarProdutos.this, "Produto cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+                    nomeProduto.setText("");
+                    valorProduto.setText("");
+                    quantidade.setText("");
+                }
                 Intent intent = new Intent(CadastrarProdutos.this, Produtos.class);
-                intent.putExtra("listaDeProdutos", listaDeProdutos);
                 startActivity(intent);
             }
         });
