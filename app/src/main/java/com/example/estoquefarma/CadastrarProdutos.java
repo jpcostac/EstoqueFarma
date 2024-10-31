@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,10 +40,17 @@ public class CadastrarProdutos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nome = nomeProduto.getText().toString();
-                double valor = Double.parseDouble(valorProduto.getText().toString());
-                int qtd = Integer.parseInt(quantidade.getText().toString());
-                String categoria = spinnerCategoria.getSelectedItem().toString();
+                String valorStr = valorProduto.getText().toString();
+                String qtdStr = quantidade.getText().toString();
 
+                if (nome.isEmpty() || valorStr.isEmpty() || qtdStr.isEmpty()){
+                    Toast.makeText(CadastrarProdutos.this, "Preencha os campos corretamente", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                double valor = Double.parseDouble(valorStr);
+                int qtd = Integer.parseInt(qtdStr);
+                String categoria = spinnerCategoria.getSelectedItem().toString();
 
                 Produto produto = new Produto(nome, valor, qtd, categoria);
                 listaDeProdutos.add(produto);

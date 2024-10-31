@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +35,12 @@ public class Produtos extends AppCompatActivity {
         Button buttonFiltrar = findViewById(R.id.filtro);
 
         listaDeProdutos = (ArrayList<CadastrarProdutos.Produto>) getIntent().getSerializableExtra("listaDeProdutos");
+
+        if(listaDeProdutos == null){
+            listaDeProdutos = new ArrayList<>();
+            Toast.makeText(this, "Nenhum produto disponível", Toast.LENGTH_SHORT).show();
+        }
+
         produtosFiltrados = new ArrayList<>();
         for (CadastrarProdutos.Produto produto : listaDeProdutos){
             produtosFiltrados.add(produto.getNome());
