@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
@@ -30,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
 
-                if(email.isEmpty() && password.isEmpty()){
-                    Toast.makeText(MainActivity.this,"Por favor preeencha todos os campos",Toast.LENGTH_SHORT).show();
+                if(email.isEmpty() || password.isEmpty()){
+                    Toast.makeText(MainActivity.this,"Por favor preencha todos os campos",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(MainActivity.this, TelaInicial.class);
-                    startActivity(intent);
+                    if(verificarCredenciais(email, password)) {
+                        Intent intent = new Intent(MainActivity.this, TelaInicial.class);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(MainActivity.this,"Dados inválidos",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -46,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private boolean verificarCredenciais(String email, String password){
+        ArrayList<Usuario> listaUsuarios = CriarConta.getListaUsuarios(); // Certifique-se de que este método está implementado em CriarConta.
+
+        for (Usuario usuario : listaUsuarios){
+            if (usuario.getEmail().equals(email) && usuario.getSenha().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
